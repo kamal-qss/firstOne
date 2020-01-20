@@ -1,0 +1,7 @@
+Staging:
+    RDS Database(PG) Endpoint : vtionpg.chgz4nqwpdta.ap-south-1.rds.amazonaws.com
+	Username : vtion
+	Password : per4mance
+	Database Name : VTIONData
+
+	Table Used : event,events_5ad83ce1f71de7016db4c0c1,eventsdata,fmcompetapps,fmpackages,fmpackagesdemo,fmtrackinglist,installdata,installdatadummy,TAM_OCT,userprofile,users

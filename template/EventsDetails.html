@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello Chart</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<meta http-equiv="refresh" content="10">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<style>
+  .class_white{
+    color: rgba(255,255,255, 0.9) !important;
+  }
+</style>
+<script>
+var endpoint  = '../api/chart/dataRadio'
+var dates = []
+var colour = []
+var count = [];
+$.ajax({
+	method:"GET",
+	url : endpoint,
+	success : function(data) {
+		console.log(data)
+		dates = data.labeldates
+		count = data.labelcount
+		colour = data.colour
+		var ctx = document.getElementById('myChart');
+		var myChart = new Chart(ctx, {
+		    type: 'bar',
+		    data: {
+		        labels: dates,
+		        datasets: [{
+		            label: 'Last Seven Days Radio Events',
+		            data: count,
+		           	backgroundColor: colour,
+		        }]
+		    },
+		   	options: {
+		       	scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero: true
+		                }
+		            }]
+		        }
+		    }
+		})
+	},
+	error : function(error_data) {
+		console.log("Error")
+		console.log(error_data)
+	}
+})
+
+window.onload = function() {
+	var endpointAudio  = '../api/chart/dataAudio'
+	var datesAudio = []
+	var colourAudio = []
+	var countAudio = [];
+	$.ajax({
+		method:"GET",
+		url : endpointAudio,
+		success : function(dataAudio) {
+			console.log(dataAudio)
+			datesAudio = dataAudio.labeldates
+			countAudio = dataAudio.labelcount
+			colourAudio = dataAudio.colour
+			var ctx = document.getElementById('myChartAudio');
+			var myChart = new Chart(ctx, {
+			    type: 'bar',
+			    data: {
+			        labels: datesAudio,
+			        datasets: [{
+			            label: 'Last Seven Days Audio Events',
+			            data: countAudio,
+			           	backgroundColor: colourAudio,
+			        }]
+			    },
+			   	options: {
+			       	scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero: true
+			                }
+			            }]
+			        }
+			    }
+			})
+		},
+		error : function(error_data) {
+			console.log("Error")
+			console.log(error_data)
+		}
+	})
+};
+</script>
+</head>
+<body background="https://vtion.in/rev-slider-files/assets/notgeneric_bg1.jpg">
+	<nav class="navbar navbar-expand-lg navbar-light bg-dark  fixed-top" style="background-color:#1C2755 !important;">
+      <a class="nav-link active" href="{% url 'UserApp:userHome' %}"><img src="{% static 'images/vition-logo.png' %}" height="40px" width="60px" /></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          {% if loginUser.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link active class_white" style="" href="{% url 'event' %}">Postgres Events</a>  
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active class_white" href="{% url 'pythonignite' %}">Apache Ignite Events</a>
+          </li>
+          {% endif %}
+        </ul>
+        <ul class="navbar-nav">
+          {% if loginUser.is_authenticated %}
+          <li class="nav-item" style="margin-left: 600px;">
+            <a class="nav-link active class_white" href="">Welcome, {{ loginUser.first_name }} || </a>
+          </li>
+          <li>
+            <a class="nav-link active class_white" href="{% url 'UserApp:userLogout' %}">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item" style="margin-left: 1100px;">
+            <a class="nav-link active class_white" href="{% url 'UserApp:userlogin' %}">LogIn</a>  
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+	<div class="container jumbotron">
+		<h4 style="text-align: center; margin-top:5rem">VTION KPI Graphs For Radio and Audio Tuned</h4>
+		<div class="row">
+			<div class="col-md-6" style="">
+				<!-- <h6>Hello</h6> -->
+				<canvas id="myChart" width="400" height="400"></canvas>
+			</div>
+			<div class="col-md-6" style="">
+				<!-- <h6>Hello</h6> -->
+				<canvas id="myChartAudio" width="400" height="400"></canvas>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+

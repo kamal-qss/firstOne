@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>User</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav class="nav">
+      <a class="nav-link active" href="{% url 'UserApp:userHome' %}">VTION</a>
+      <a class="nav-link active" href="{% url 'UserApp:userlogin' %}">LogIn</a>      
+    </nav>
+    <div class='container'>
+        <div class='jumbotron'>
+            <h1>Fill out the form for registration!!</h1>
+    <form method="POST" action='#'>
+        <!--<label for="suserid">Id: </label>-->
+        <!--<input id="suserid" type="text" name="suserid" value=""{{ form.userid }} maxlength="100" required>-->
+        <!--<br>-->
+        {% csrf_token %}
+        <label for="sfirstname">First name: </label>
+        <input id="sfirstname" type="text" name="sfirstname" maxlength="100" required>
+        <br>
+        <label for="slastname">Last name: </label>  
+        <input id="slastname" type="text" name="slastname" maxlength="100" required>
+        <br>
+        <label for="semail">Email: </label>
+        <input id="semail" type="text" name="semail" maxlength="100" required>
+        <br>
+        <label for="spassword">Password: </label>
+        <input id="spassword" type="password" name="spassword" maxlength="100" required>
+        <br>
+        <input type="submit">
+    </form>
+        </div>
+    </div
+  </body>
+</html>

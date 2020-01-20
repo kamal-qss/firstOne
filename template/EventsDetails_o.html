@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello Chart</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<meta http-equiv="refresh" content="10">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script>
+var endpoint  = '../api/chart/dataRadio'
+var dates = []
+var colour = []
+var count = [];
+$.ajax({
+	method:"GET",
+	url : endpoint,
+	success : function(data) {
+		console.log(data)
+		dates = data.labeldates
+		count = data.labelcount
+		colour = data.colour
+		var ctx = document.getElementById('myChart');
+		var myChart = new Chart(ctx, {
+		    type: 'bar',
+		    data: {
+		        labels: dates,
+		        datasets: [{
+		            label: 'Last Seven Days Radio Events',
+		            data: count,
+		           	backgroundColor: colour,
+		        }]
+		    },
+		   	options: {
+		       	scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero: true
+		                }
+		            }]
+		        }
+		    }
+		})
+	},
+	error : function(error_data) {
+		console.log("Error")
+		console.log(error_data)
+	}
+})
+
+window.onload = function() {
+	var endpointAudio  = '../api/chart/dataAudio'
+	var datesAudio = []
+	var colourAudio = []
+	var countAudio = [];
+	$.ajax({
+		method:"GET",
+		url : endpointAudio,
+		success : function(dataAudio) {
+			console.log(dataAudio)
+			datesAudio = dataAudio.labeldates
+			countAudio = dataAudio.labelcount
+			colourAudio = dataAudio.colour
+			var ctx = document.getElementById('myChartAudio');
+			var myChart = new Chart(ctx, {
+			    type: 'bar',
+			    data: {
+			        labels: datesAudio,
+			        datasets: [{
+			            label: 'Last Seven Days Audio Events',
+			            data: countAudio,
+			           	backgroundColor: colourAudio,
+			        }]
+			    },
+			   	options: {
+			       	scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero: true
+			                }
+			            }]
+			        }
+			    }
+			})
+		},
+		error : function(error_data) {
+			console.log("Error")
+			console.log(error_data)
+		}
+	})
+};
+</script>
+</head>
+<body class="jumbotron">
+	<div class="container">
+		<a class="nav-link active" href="{% url 'UserApp:userHome' %}">VTION-PROD</a>
+		<h4 style="text-align: center;">VTION KPI Graphs For Radio and Audio Tuned</h4>
+		<div class="row">
+			<div class="col-md-6" style="">
+				<!-- <h6>Hello</h6> -->
+				<canvas id="myChart" width="400" height="400"></canvas>
+			</div>
+			<div class="col-md-6" style="">
+				<!-- <h6>Hello</h6> -->
+				<canvas id="myChartAudio" width="400" height="400"></canvas>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

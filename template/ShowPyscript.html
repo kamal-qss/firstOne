@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<style type="text/css">
+  .container {
+    width: 80%;
+    margin: 15px auto;
+  }
+  .class_white{
+    color: rgba(255,255,255, 0.9) !important;
+  }
+</style>
+</head>
+<body background="https://vtion.in/rev-slider-files/assets/notgeneric_bg1.jpg">
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark  fixed-top" style="background-color:#1C2755 !important;">
+      <a class="nav-link active" href="{% url 'UserApp:userHome' %}"><img src="{% static 'images/vition-logo.png' %}" height="40px" width="60px" /></a><!-- {% static 'images/vition-logo.png' %} -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          {% if loginUser.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link active class_white" style="" href="{% url 'event' %}">Postgres Events</a>  
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active class_white" href="{% url 'pythonignite' %}">Apache Ignite Events</a>
+          </li>
+          {% endif %}
+        </ul>
+        <ul class="navbar-nav">
+          {% if loginUser.is_authenticated %}
+          <li class="nav-item" style="margin-left: 750px;">
+            <a class="nav-link active class_white" href="{% url 'UserApp:userLogout' %}">Welcome, {{ loginUser.first_name }}</a>
+          </li>
+          <li style="margin-left: 20px">
+            <a class="nav-link active class_white" href="{% url 'UserApp:userLogout' %}">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item" style="margin-left: 1100px;">
+            <a class="nav-link active class_white" href="{% url 'UserApp:userlogin' %}">LogIn</a>  
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    <hr style="margin-top: 100px;">
+    <div class="container">
+    	<img src="{% static 'charts/Charts/pngBarChart01.png' %}" style="height: 500px; width: 1100px; margin-top: 50px" /><hr>
+    	<img src="{% static 'charts/Charts/pngBarChart02.png' %}" style="height: 500px; width: 1100px; margin-top: 50px" /><hr>
+    	<img src="{% static 'charts/Charts/pngBarChart03.png' %}" style="height: 500px; width: 1100px; margin-top: 50px" /><hr>
+    	<img src="{% static 'charts/Charts/pngBarChart04.png' %}" style="height: 500px; width: 1100px; margin-top: 50px" /><hr>
+    	<img src="{% static 'charts/Charts/pngBarChart05.png' %}" style="height: 500px; width: 1100px; margin-top: 50px" /><hr>
+    	<img src="{% static 'charts/Charts/pngBarChart06.png' %}" style="height: 500px; width: 1100px; margin-top: 50px" /><hr>
+    	<img src="{% static 'charts/Charts/pngBarChart07.png' %}" style="height: 500px; width: 1100px; margin-top: 50px" /><hr>
+    	<img src="{% static 'charts/Charts/pngBarChart08.png' %}" style="height: 500px; width: 1100px; margin-top: 50px" /><hr>
+    	<img src="{% static 'charts/Charts/pngBarChart09.png' %}" style="height: 500px; width: 1100px; margin-top: 50px" /><hr>
+    	<img src="{% static 'charts/Charts/pngBarChart10.png' %}" style="height: 500px; width: 1100px; margin-top: 50px" /><hr>
+    </div>
+    
+
+</body>
+</html>

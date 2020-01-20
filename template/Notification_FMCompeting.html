@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<style>
+  .class_white{
+    color: rgba(255,255,255, 0.9) !important;
+  }
+    /*  table, th, td {
+      border: 1px solid green;
+      }*/
+  .centerallign{
+    text-align: center;
+  }
+</style>
+</head>
+<body background="http://vtion.webcodey.com/wp-content/uploads/2019/06/notgeneric_bg2.jpg">
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark  fixed-top" style="background-color:#1C2755 !important;">
+      <a class="nav-link active" href="{% url 'UserApp:userHome' %}"><img src="{% static 'images/vition-logo.png' %}" height="30px" width="60px" /></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          {% if loginUser.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link active class_white" style="" href="{% url 'event' %}">Postgres Events</a>  
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active class_white" href="{% url 'pythonignite' %}">Apache Ignite Events</a>
+          </li>
+          {% endif %}
+        </ul>
+        <ul class="navbar-nav">
+          {% if loginUser.is_authenticated %}
+          <li class="nav-item" style="margin-left: 600px;">
+            <a class="nav-link active class_white" href="{% url 'UserApp:userLogout' %}">Welcome, {{ loginUser.first_name }}</a>
+          </li>
+          <li>
+            <a class="nav-link active class_white" href="{% url 'UserApp:userLogout' %}">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item" style="margin-left: 1100px;">
+            <a class="nav-link active class_white" href="{% url 'UserApp:userlogin' %}">LogIn</a>  
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+	<div class="container jumbotron">
+	{% if chartfor == '0' %}
+        <h3 class="centerallign" style="padding-top: 20px;">Performance COHORT for Audio_Tuned</h3>
+        {% else %}
+        <h3 class="centerallign" style="padding-top: 20px;">Performance COHORT for FM_Tuned</h3>
+        {% endif %}
+
+	<hr>
+        <table style="margin-left: 60px;margin-right: 60px;margin-bottom: 60px;">
+            <tbody>
+            	<tr>
+                    <th class="centerallign" style="padding: 30px;" width="12.5">Cohort</th>
+                    <th class="centerallign" style="padding: 30px;" width="12.5">No of Installs</th>
+                    <th class="centerallign" style="padding: 30px;" width="12.5">Day 1</th>
+                    <th class="centerallign" style="padding: 30px;" width="12.5">Day 2</th>
+                    <th class="centerallign" style="padding: 30px;" width="12.5">Day 3</th>
+                    <th class="centerallign" style="padding: 30px;" width="12.5">Day 4</th>
+                    <th class="centerallign" style="padding: 30px;" width="12.5">Day 5</th>
+                    <th class="centerallign" style="padding: 30px;" width="12.5">Day 6</th>
+                    <th class="centerallign" style="padding: 30px;" width="12.5">Day 7</th>
+                </tr>
+                <tr>
+                    <th class="centerallign">{{ dates.0 }}</th>
+                    <th class="centerallign" style="padding: 30px; background-color: rgba(0, 175, 215, 0.17800000000000002) ;">{{ datacount.0 }}</th>
+                    {% for item in dataarray.6 %}
+                        <td class="centerallign" style="padding: 30px; background-color: rgba(0, 175, 215, 0.17800000000000002) ;">{{ item }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th class="centerallign">{{ dates.1 }}</th>
+                    <th class="centerallign" style="padding: 30px; background-color: rgba(0, 175, 215, 0.184) ;">{{ datacount.1 }}</th>
+                    {% for item in dataarray.5 %}
+                        <td class="centerallign" style="padding: 30px; background-color: rgba(0, 175, 215, 0.184) ;">{{ item }}</td>
+                    {% endfor %}
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th class="centerallign">{{ dates.2 }}</th>
+                    <th class="centerallign" style="padding: 30px; background-color: rgba(0, 175, 215, 0.22899999999999998) ;">{{ datacount.2 }}</th>
+                    {% for item in dataarray.4 %}
+                        <td class="centerallign" style="padding: 30px; background-color: rgba(0, 175, 215, 0.22899999999999998) ;">{{ item }}</td>
+                    {% endfor %}
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th class="centerallign">{{ dates.3 }}</th>
+                    <th class="centerallign" style="padding: 30px; background-color: rgba(0, 175, 215, 0.29100000000000004) ;">{{ datacount.3 }}</th>
+                    {% for item in dataarray.3 %}
+                        <td class="centerallign" style="padding: 30px; background-color: rgba(0, 175, 215, 0.29100000000000004) ;">{{ item }}</td>
+                    {% endfor %}
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th class="centerallign">{{ dates.4 }}</th>
+                    <th class="centerallign" style="padding: 30px; background-color: rgba(0, 175, 215, 0.41700000000000004) ;">{{ datacount.4 }}</th>
+                    {% for item in dataarray.2 %}
+                        <td class="centerallign" style="padding: 30px; background-color: rgba(0, 175, 215, 0.41700000000000004) ;">{{ item }}</td>
+                    {% endfor %}
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th class="centerallign">{{ dates.5 }}</th>
+                    <th class="centerallign" style="padding: 30px; background-color: rgba(0, 175, 215, 0.54) ;">{{ datacount.5 }}</th>
+                    {% for item in dataarray.1 %}
+                        <td class="centerallign" style="padding: 30px; background-color: rgba(0, 175, 215, 0.54) ;">{{ item }}</td>
+                    {% endfor %}
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th class="centerallign">{{ dates.6 }}</th>
+                    <th class="centerallign" style="padding: 30px; background-color: rgba(0, 175, 215, 0.7829999999999999) ;">{{ datacount.6 }}</th>
+                    {% for item in dataarray.0 %}
+                        <td class="centerallign" style="padding: 30px; background-color: rgba(0, 175, 215, 0.7829999999999999) ;">{{ item }}</td>
+                    {% endfor %}
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+	</div>
+</body>
+</html>

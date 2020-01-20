@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PostGres Events</title>
+<style>
+  .class_white{
+    color: rgba(255,255,255, 0.9) !important;
+  }
+</style>
+</head>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<body background="https://vtion.in/rev-slider-files/assets/notgeneric_bg1.jpg">
+<div class="jumbotron container p-2">
+<!--	<nav class="nav">
+      <a class="nav-link active" href="{% url 'UserApp:userHome' %}">VTION</a>
+      <a class="nav-link active" href="{% url 'pythonignite' %}">Apache Ignite Events</a>            
+      <a class="nav-link active" href="{% url 'UserApp:userLogout' %}">Logout</a>
+      <a class="nav-link active" style="padding-left: 800px;">User: {{ loginUser.first_name }}</a>
+    </nav>-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark  fixed-top" style="background-color:#1C2755 !important;">
+      <a class="nav-link active" href="{% url 'UserApp:userHome' %}"><img src="{% static 'images/vition-logo.png' %}" height="40px" width="60px" /></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          {% if loginUser.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link active class_white" style="" href="{% url 'event' %}">Postgres Events</a>  
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active class_white" href="{% url 'pythonignite' %}">Apache Ignite Events</a>
+          </li>
+          {% endif %}
+        </ul>
+        <ul class="navbar-nav">
+          {% if loginUser.is_authenticated %}
+          <li class="nav-item" style="margin-left: 600px;">
+            <a class="nav-link active class_white" href="{% url 'UserApp:userLogout' %}">Welcome, {{ loginUser.first_name }}</a>
+          </li>
+          <li>
+            <a class="nav-link active class_white" href="{% url 'UserApp:userLogout' %}">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item" style="margin-left: 1100px;">
+            <a class="nav-link active class_white" href="{% url 'UserApp:userlogin' %}">LogIn</a>  
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    <div class="row" style="margin-top: 80px;">
+    	<div class="col-md-4">
+    		<h3 class="p-2">Postgres events</h3>
+    		{% if value == 1 %} <p>* For {{ sdeviceid }} </p> {% endif %}
+		</div>
+    	<div class="col-md-4">
+    		<div class="search-container" style="margin-top: 10px;">
+			    <form action="/search_deviceid_postgres" method="get">
+			      <input type="text" placeholder="Device Id.." name="sdeviceid" id="sdeviceid" required="">
+			      <button type="submit">Search</button>
+			    </form>
+  			</div>
+		</div>
+		<div class="col-md-4">
+		</div>
+	</div>
+	<hr>
+	<div class="table-responsive">
+	  <table class="table">
+	    <thead>
+	      <tr>
+	        <th>#</th>
+	        <th>City</th>
+	        <th>Event</th>
+	        <th>Device Id</th>
+	        <th>Timestamp</th>
+	        <th>Date</th>
+	        <th>Time</th>
+	        <th>EventName</th>	
+	      </tr>
+	    </thead>
+	    <tbody>
+	    {% for item in contacts %}
+	      <tr style="height: 300px;">
+	        <th><a href="{% url 'eventBrief' item.id %}">{{forloop.counter}}</a></th>
+	        <td>{{item.city}}</td>
+	        <td style="word-wrap: break-word;min-width: 300px;max-width: 300px;">{{item.events}}</td>
+	        <td>{{item.device_id}}</td>
+	      	<td>{{item.timestamp}}</td>
+	      	<td>{{item.created_date}}</td>
+	      	<td>{{item.created_time}}</td>
+	      	<td>{{item.eventname}}</td>
+	      </tr>
+	    {% endfor %}
+	    </tbody>
+	  </table>
+	<div style="background-color: #FFFFFF; overflow: auto; white-space: nowrap;">
+	{% if contacts.has_other_pages %}
+		<ul class="pagination">
+    	{% if contacts.has_previous %}
+			<li class="btn btn-primary ml-1"><a style="color: #000000;" href="?page={{ contacts.previous_page_number }}">&laquo;</a></li>
+		{% else %}
+			<li class="disabled btn btn-info ml-1"><span>&laquo;</span></li>
+    	{% endif %}
+    	{% for i in contacts.paginator.page_range %}
+      		{% if contacts.number == i %}
+        		<li class="btn btn-primary active ml-1"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      		{% else %}
+        		<li class="btn btn-success ml-1"><a style="color: #000000;" href="?page={{ i }}">{{ i }}</a></li>
+      		{% endif %}
+    	{% endfor %}
+    	{% if contacts.has_next %}
+      		<li class="btn btn-primary ml-1"><a style="color: #000000;" href="?page={{ contacts.next_page_number }}">&raquo;</a></li>
+    	{% else %}
+      		<li class="disabled btn btn-info ml-1"><span>&raquo;</span></li>
+    	{% endif %}
+  		</ul>
+	{% endif %}
+	</div>
+	</div>
+</div>
+</body>
+</html>
