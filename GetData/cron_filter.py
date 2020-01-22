@@ -137,7 +137,7 @@ def export_users_csv():
                                         if song.isdigit():
                                             continue
                                         song = song.strip()
-                                        filter_new = ['Download', 'download', 'AUD', 'Advertise', '%']
+                                        filter_new = ['Download', 'download', 'AUD', 'VID','Advertise', '%']
                                         status_filter = (filter_new[0] in song or filter_new[1] in song or filter_new[2] in
                                                         song or filter_new[3] in song or filter_new[4] in song)
                                         if str(status_filter) == 'False':
@@ -172,7 +172,9 @@ def export_users_csv():
                                                 for det in details:
                                                     artist_name = det[0]
                                                     genre = det[1]
-
+                                        else:
+                                            continue
+                                        
                                         value = filter_song(song, app)
                                         if value[0] == 'S':
                                             continue

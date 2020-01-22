@@ -618,6 +618,8 @@ def drawgraph(request):
 	loginUser = request.user
 	# es = Elasticsearch([{'host': '127.0.0.1', 'port': 9200}])
 	es = Elasticsearch([{'host': '13.235.1.36', 'port': 9200}])
+	today = str(datetime.date.today())
+	new_date = today[5:7]+"/"+today[8:10]+"/"+today[0:4]
 	list_data = es.search(index="radio_kpi", body={"query": {"match_all": {}}})["hits"]["hits"]
 	print(list_data)
 	x = []
@@ -635,7 +637,27 @@ class CreateChart(APIView):
 	def get(self, request, format=None):
 		# es = Elasticsearch([{'host': '127.0.0.1', 'port': 9200}]) //changed by kamal
 		es = Elasticsearch([{'host': '13.235.1.36', 'port': 9200}])
-		list_data = es.search(index="radio_kpi", body={"from" : 0, "size" : 7,"sort": [{"tuned_date.keyword": {"order": "desc"}}],"query": {"match_all": {}}})["hits"]["hits"]
+		today = str(datetime.date.today())
+		new_date = today[5:7]+"/"+today[8:10]+"/"+today[0:4]
+		list_data = es.search(index="radio_kpi", 
+		body = {
+				"from" : 0, "size" : 7,
+				
+				"sort": [{
+					"tuned_date.keyword": {
+					"order": "desc"
+					}
+					}],
+				"query": {
+				"range": {
+					"tuned_date.keyword": {
+					"lte": new_date
+					}
+				}
+			}
+		}
+		)["hits"]["hits"]
+		
 		# print(list_data)
 		labeldates = []
 		labelcount = []
@@ -645,7 +667,6 @@ class CreateChart(APIView):
 			# print(item["_source"])
 		# print(labeldates)
 		# 
-
 		# print(labelcount)
 		colour = [
 	                'rgba(25, 255, 122, 0.2)',
@@ -669,8 +690,8 @@ class CreateChartAudio(APIView):
 	permission_classes = []
 
 	def get(self, request, format=None):
-		es = Elasticsearch([{'host': '127.0.0.1', 'port': 9200}])
-		# es = Elasticsearch([{'host': '13.235.1.36', 'port': 9200}])
+		# es = Elasticsearch([{'host': '127.0.0.1', 'port': 9200}])
+		es = Elasticsearch([{'host': '13.235.1.36', 'port': 9200}])
 		today = str(datetime.date.today())
 		new_date = today[5:7]+"/"+today[8:10]+"/"+today[0:4]
 		list_data = es.search(index="audio_kpi", 
@@ -688,8 +709,8 @@ class CreateChartAudio(APIView):
 					"lte": new_date
 					}
 				}
-				}
-				}
+			}
+		}
 		)["hits"]["hits"]
 		
 		# print(list_data)

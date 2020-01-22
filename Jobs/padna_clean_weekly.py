@@ -3,7 +3,7 @@ from datetime import date, timedelta
 import numpy as np
 
 data_main_np = []
-for day_back in range(3):
+for day_back in range(7):
     
     yesterday = date.today() - timedelta(days=day_back+2)
     files_location = "/home/dhananjai/Desktop/data_panda/Data_"+yesterday.strftime('%m_%d_%Y')+'.csv'
